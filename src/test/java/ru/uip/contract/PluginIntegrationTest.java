@@ -39,6 +39,8 @@ public class PluginIntegrationTest {
         contracts.put("GetAccounts", files);
         extension.setOperationContracts(contracts);
 
+        extension.setTemplate("src/main/resources/spec.mustache");
+
         extension.setOutputDir(project.getBuildDir() + "/generated-snippets/contract-description");
 
         task.getActions().get(0).execute(task);

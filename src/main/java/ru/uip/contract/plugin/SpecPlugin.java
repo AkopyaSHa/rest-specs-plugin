@@ -35,8 +35,7 @@ public class SpecPlugin implements Plugin<Project> {
             final OpenApiParser openApiParser = new OpenApiParser(apiExt.getApiSpec());
             final ContractsParser contractsParser = new ContractsParser(fromConfig(apiExt));
 
-            //TODO override mustache template name from project resources
-            final SpecGenerator specGenerator = new SpecGenerator("spec.mustache");
+            final SpecGenerator specGenerator = createSpecGenerator(apiExt);
             final SpecWriter specWriter = new SpecWriter(apiExt.getOutputDir());
 
             final Map<String, Set<ContractDescription>> operationContracts = parseSpec(openApiParser, contractsParser);
@@ -44,6 +43,12 @@ public class SpecPlugin implements Plugin<Project> {
             specWriter.write(contractSpecs);
         });
 
+    }
+
+    private SpecGenerator createSpecGenerator(SpecPluginExtension apiExt) {
+        return (apiExt.getTemplate() == null || apiExt.getTemplate().isBlank()) ?
+                new SpecGenerator() :
+                new SpecGenerator(apiExt.getTemplate());
     }
 
     public Map<String, Set<File>> fromConfig(SpecPluginExtension apiExt) {

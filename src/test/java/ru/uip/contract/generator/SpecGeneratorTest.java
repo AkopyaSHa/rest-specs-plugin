@@ -11,14 +11,15 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Tag("unit")
 public class SpecGeneratorTest {
 
-    private SpecGenerator generator = new SpecGenerator("spec.mustache");
-
     @Test
-    public void testGenerateSpec() {
+    public void testGenerateSpecWithParams() {
+        final SpecGenerator generator = new SpecGenerator("src/main/resources/spec.mustache");
+
         Map<String, Set<ContractDescription>> operationContracts = new HashMap<>();
         ContractDescription description = new ContractDescription("Its name", "Its desc");
         Set<ContractDescription> contractDescriptions = new HashSet<>();
@@ -29,6 +30,31 @@ public class SpecGeneratorTest {
         final String separator = System.getProperty("line.separator");
         final String expected = spec.get("Test").replaceAll(separator, "");
 
-        assertThat(expected, equalTo("== Its nameIts desc"));
+        assertThat(expected, equalTo("===== Its nameIts desc"));
+    }
+
+    @Test
+    public void testGenerateSpecWithDefaults() {
+        final SpecGenerator generator = new SpecGenerator();
+
+        Map<String, Set<ContractDescription>> operationContracts = new HashMap<>();
+        ContractDescription description = new ContractDescription("Its name", "Its desc");
+        Set<ContractDescription> contractDescriptions = new HashSet<>();
+        contractDescriptions.add(description);
+        operationContracts.put("Test", contractDescriptions);
+
+        final Map<String, String> spec = generator.generateSpecs(operationContracts);
+        final String separator = System.getProperty("line.separator");
+        final String expected = spec.get("Test").replaceAll(separator, "");
+
+        assertThat(expected, equalTo("===== Its nameIts desc"));
+    }
+
+    @Test
+    public void testTemplateNotExists() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new SpecGenerator("/unknown")
+        );
     }
 }
