@@ -8,6 +8,7 @@ import ru.uip.contract.parser.ContractDescription;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class SpecGenerator {
     public SpecGenerator(String templateName, String snippetsDir) {
         try {
             Path path = Path.of(templateName);
-            final BufferedReader templateReader = Files.newBufferedReader(path);
+            final BufferedReader templateReader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
             this.mf = new DefaultMustacheFactory();
             this.m = mf.compile(templateReader, "spec.mustache");
             this.snippetsDir = snippetsDir;
