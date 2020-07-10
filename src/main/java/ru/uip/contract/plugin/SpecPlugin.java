@@ -47,8 +47,8 @@ public class SpecPlugin implements Plugin<Project> {
 
     private SpecGenerator createSpecGenerator(SpecPluginExtension apiExt) {
         return (apiExt.getTemplate() == null || apiExt.getTemplate().isBlank()) ?
-                new SpecGenerator() :
-                new SpecGenerator(apiExt.getTemplate());
+                new SpecGenerator(apiExt.getSnippetsDir()) :
+                new SpecGenerator(apiExt.getTemplate(), apiExt.getSnippetsDir());
     }
 
     public Map<String, Set<File>> fromConfig(SpecPluginExtension apiExt) {

@@ -18,22 +18,25 @@ public class SpecGenerator {
 
     private final MustacheFactory mf;
     private final Mustache m;
+    private final String snippetsDir;
 
-    public SpecGenerator(String templateName) {
+    public SpecGenerator(String templateName, String snippetsDir) {
         try {
             Path path = Path.of(templateName);
             final BufferedReader templateReader = Files.newBufferedReader(path);
             this.mf = new DefaultMustacheFactory();
             this.m = mf.compile(templateReader, "spec.mustache");
+            this.snippetsDir = snippetsDir;
             templateReader.close();
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-    public SpecGenerator() {
+    public SpecGenerator(String snippetsDir) {
         this.mf = new DefaultMustacheFactory();
         this.m = mf.compile("spec.mustache");
+        this.snippetsDir = snippetsDir;
     }
 
     public Map<String, String> generateSpecs(Map<String, Set<ContractDescription>> operationContracts) {

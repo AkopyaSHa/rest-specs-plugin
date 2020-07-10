@@ -10,32 +10,45 @@ import static org.hamcrest.Matchers.equalTo;
 public class ContractDescriptionTest {
 
     @Test
-    public void testSpecDirName() {
+    public void testSnippetName() {
         ContractDescription contractDescription = new ContractDescription(
                 "Should delete account with id equals to 1",
                 "Delete existing account balance with id = 1."
         );
 
-        assertThat(contractDescription.getSpecDirName(), equalTo("validate_should_delete_account_with_id_equals_to_1"));
+        assertThat(contractDescription.getSnippetName(), equalTo("validate_should_delete_account_with_id_equals_to_1"));
     }
 
     @Test
-    public void testSpecDirNameWithDot() {
+    public void testSnippetNameWithDot() {
         ContractDescription contractDescription = new ContractDescription(
                 "Should delete account with id equals to 1.",
                 "Delete existing account balance with id = 1."
         );
 
-        assertThat(contractDescription.getSpecDirName(), equalTo("validate_should_delete_account_with_id_equals_to_1"));
+        assertThat(contractDescription.getSnippetName(), equalTo("validate_should_delete_account_with_id_equals_to_1"));
     }
 
     @Test
-    public void testSpecDirNameWithQuestion() {
+    public void testSnippetNameWithQuestion() {
         ContractDescription contractDescription = new ContractDescription(
                 "Should delete? account ? with id equals to 1?",
                 "Delete existing account balance with id = 1."
         );
 
-        assertThat(contractDescription.getSpecDirName(), equalTo("validate_should_delete_account_with_id_equals_to_1"));
+        assertThat(contractDescription.getSnippetName(), equalTo("validate_should_delete_account_with_id_equals_to_1"));
+    }
+
+    @Test
+    public void testSnippetNameWithNonAsciiChars() {
+        ContractDescription contractDescription = new ContractDescription(
+                "Создание аккаунта с автогенерируемым номером",
+                "Delete existing account balance with id = 1."
+        );
+
+        assertThat(
+                contractDescription.getSnippetName(),
+                equalTo("validate_создание_аккаунта_с_автогенерируемым_номером")
+        );
     }
 }

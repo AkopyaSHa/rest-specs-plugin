@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.io.FileMatchers.aReadableFile;
 import static ru.uip.contract.plugin.SpecPlugin.PLUGIN_ID;
 import static ru.uip.contract.plugin.SpecPlugin.TASK_ID;
 
@@ -44,7 +46,31 @@ public class PluginIntegrationTest {
         extension.setOutputDir(project.getBuildDir() + "/generated-snippets/contract-description");
 
         task.getActions().get(0).execute(task);
-        //TODO Validate result
+
+        assertThat(
+                new File("build/generated-snippets/contract-description/GetAccounts.adoc"),
+                aReadableFile()
+        );
+    }
+
+    @Test
+    public void testExtensionConfigsEmptyTemplate() {
+        final SpecPluginExtension extension = project.getExtensions().getByType(SpecPluginExtension.class);
+        extension.setApiSpec("./src/test/api/api.yaml");
+        final Task task = project.getTasks().getByName(TASK_ID);
+        final ConfigurableFileCollection files = project.files("./src/test/contracts/getAccounts.yml");
+        Map<String, ConfigurableFileCollection> contracts = new HashMap<>();
+        contracts.put("GetAccounts", files);
+        extension.setOperationContracts(contracts);
+
+        extension.setOutputDir(project.getBuildDir() + "/generated-snippets/contract-description");
+
+        task.getActions().get(0).execute(task);
+
+        assertThat(
+                new File("build/generated-snippets/contract-description/GetAccounts.adoc"),
+                aReadableFile()
+        );
     }
 
 }

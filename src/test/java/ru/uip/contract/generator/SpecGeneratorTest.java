@@ -28,14 +28,14 @@ public class SpecGeneratorTest {
 
         final Map<String, String> spec = generator.generateSpecs(operationContracts);
         final String separator = System.getProperty("line.separator");
-        final String expected = spec.get("Test").replaceAll(separator, "");
+        final String expected = spec.get("Test").replaceAll(separator, " ");
 
-        assertThat(expected, equalTo("===== Its nameIts desc"));
+        assertThat(expected, equalTo(" ===== Its name  Its desc  validate_its_name  "));
     }
 
     @Test
     public void testGenerateSpecWithDefaults() {
-        final SpecGenerator generator = new SpecGenerator();
+        final SpecGenerator generator = new SpecGenerator("snippets");
 
         Map<String, Set<ContractDescription>> operationContracts = new HashMap<>();
         ContractDescription description = new ContractDescription("Its name", "Its desc");
@@ -45,16 +45,16 @@ public class SpecGeneratorTest {
 
         final Map<String, String> spec = generator.generateSpecs(operationContracts);
         final String separator = System.getProperty("line.separator");
-        final String expected = spec.get("Test").replaceAll(separator, "");
+        final String expected = spec.get("Test").replaceAll(separator, " ");
 
-        assertThat(expected, equalTo("===== Its nameIts desc"));
+        assertThat(expected, equalTo(" ===== Its name  Its desc  validate_its_name  "));
     }
 
     @Test
     public void testTemplateNotExists() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> new SpecGenerator("/unknown")
+                () -> new SpecGenerator("/unknown", "snippets")
         );
     }
 }

@@ -20,9 +20,10 @@ public class SpecWriter {
 
     public void write(Map<String, String> contractSpecs) {
         for(Map.Entry<String, String> spec: contractSpecs.entrySet()) {
-            new File(outputDir).mkdirs();
-            Path path = Paths.get(outputDir, spec.getKey() + ".adoc");
             try {
+                new File(outputDir).mkdirs();
+                Path path = Paths.get(outputDir, spec.getKey() + ".adoc");
+
                 Files.deleteIfExists(path);
                 Files.write(path, spec.getValue().getBytes(UTF_8), CREATE_NEW);
             } catch (IOException e) {

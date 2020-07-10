@@ -15,5 +15,6 @@ public class SpecPluginExtension {
     private String apiSpec = "src/main/api/api.yaml";
     private Map<String, ConfigurableFileCollection> operationContracts = new HashMap<>();
     private String template;
+    private String snippetsDir;
     private String outputDir;
 }
