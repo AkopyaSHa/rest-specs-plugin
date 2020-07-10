@@ -55,6 +55,7 @@ public class SpecGenerator {
         StringWriter writer = new StringWriter();
         Map<String, Object> context = new HashMap<>();
         context.put("descriptions", descriptions);
+        context.put("snippetsDir", snippetsDir);
         m.execute(writer, context);
         return writer.toString();
     }

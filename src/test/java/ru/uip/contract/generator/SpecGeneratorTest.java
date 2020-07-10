@@ -18,7 +18,7 @@ public class SpecGeneratorTest {
 
     @Test
     public void testGenerateSpecWithParams() {
-        final SpecGenerator generator = new SpecGenerator("src/main/resources/spec.mustache");
+        final SpecGenerator generator = new SpecGenerator("src/test/api/snippets");
 
         Map<String, Set<ContractDescription>> operationContracts = new HashMap<>();
         ContractDescription description = new ContractDescription("Its name", "Its desc");
@@ -30,7 +30,7 @@ public class SpecGeneratorTest {
         final String separator = System.getProperty("line.separator");
         final String expected = spec.get("Test").replaceAll(separator, " ");
 
-        assertThat(expected, equalTo(" ===== Its name  Its desc  validate_its_name  "));
+        assertThat(expected, equalTo(" ===== Its name  Its desc  Запрос:  include::src/test/api/snippets/validate_its_name/http-request.adoc[]  Ответ:  include::src/test/api/snippets/validate_its_name/http-response.adoc[]  "));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class SpecGeneratorTest {
         final String separator = System.getProperty("line.separator");
         final String expected = spec.get("Test").replaceAll(separator, " ");
 
-        assertThat(expected, equalTo(" ===== Its name  Its desc  validate_its_name  "));
+        assertThat(expected, equalTo(" ===== Its name  Its desc  Запрос:  include::snippets/validate_its_name/http-request.adoc[]  Ответ:  include::snippets/validate_its_name/http-response.adoc[]  "));
     }
 
     @Test
