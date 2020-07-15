@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'ru.ui.contract'
+group 'ru.uip.contract'
 version '0.1'
 
 repositories {
